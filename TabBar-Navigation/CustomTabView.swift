@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-
 class TabBarSelection: ObservableObject {
     @Binding var item: TabBarItem
-    
+   
     init(selectedTab: Binding<TabBarItem>) {
         self._item = selectedTab
     }
@@ -19,27 +18,43 @@ class TabBarSelection: ObservableObject {
 struct CustomTabView<Content:View>: View {
     private var selectedTab: TabBarSelection
     @State private var tabs: [TabBarItem] = []
+    @State private var isTabBarHidden = false
     let content: Content
     
     init(selectedTab: Binding<TabBarItem>, @ViewBuilder content: () -> Content) {
-        self.content = content()
         self.selectedTab = .init(selectedTab: selectedTab)
+        self.content = content()
     }
     
     var body: some View {
         ZStack {
             content
-                
+                .onPreferenceChange(VisibilityPreferenceKey.self, perform: { value in
+                    withAnimation {
+                        self.isTabBarHidden = value
+                    }
+                })
+            
             VStack {
                 Spacer()
-                TabBarView(selectedTab: selectedTab.$item, tabs: tabs)
+                if !isTabBarHidden {
+                    TabBarView(selectedTab: selectedTab.$item, tabs: tabs)
+                        .transition(.move(edge: .bottom))
+                } 
             }
         }
         .onPreferenceChange(TabBarItemsPreferenceKey.self, perform: { value in
             self.tabs = value
         })
+        
         .environmentObject(selectedTab)
         
+    }
+}
+
+extension CustomTabView {
+    func toolbar (@ViewBuilder content: @escaping () -> Content) -> Content {
+        content()
     }
 }
 

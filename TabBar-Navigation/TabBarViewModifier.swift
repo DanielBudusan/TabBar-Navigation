@@ -18,10 +18,35 @@ struct TabBarItemViewModifer: ViewModifier {
 //                    .transition(AnyTransition.move(edge: .leading).combined(with: .opacity))
             } else {
                 Color.clear
-                
             }
         }
         .preference(key: TabBarItemsPreferenceKey.self, value: [tab])
+    }
+}
+
+struct CustomToolbarModifier<V>: ViewModifier where V: View {
+    let toolbarButtons: () -> V
+    
+    func body(content: Content) -> some View {
+        VStack {
+            content
+            toolbarButtons()
+        }
+    }
+}
+
+extension View {
+    func customToolbar<V: View>(content: @escaping () -> V) -> some View {
+        return modifier(CustomToolbarModifier(toolbarButtons: content))
+    }
+}
+
+struct TabBarVisibility: ViewModifier {
+    let isVisibile: Bool
+    
+    func body(content: Content) -> some View {
+        return content
+            .preference(key: VisibilityPreferenceKey.self, value: isVisibile)
     }
 }
 
@@ -31,3 +56,11 @@ extension View {
         return modifier(TabBarItemViewModifer(tab: tab))
     }
 }
+
+extension View {
+    func tabBarHidden(_ isVisible: Bool) -> some View {
+        return modifier(TabBarVisibility(isVisibile: isVisible))
+    }
+}
+
+

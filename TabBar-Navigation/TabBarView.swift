@@ -11,24 +11,17 @@ struct TabBarView: View {
     @Binding var selectedTab: TabBarItem
     var tabs: [TabBarItem] = []
     
+    init(selectedTab: Binding<TabBarItem> = .constant(TabBarItem(iconName: "", title: "")), tabs: [TabBarItem]) {
+           self._selectedTab = selectedTab
+           self.tabs = tabs
+       }
+    
     var body: some View {
         VStack {
             Spacer()
-            HStack {
+            HStack (alignment: .center) {
                 ForEach(tabs, id:\.title) { tab in
-                    Button {
-                        withAnimation {
-                            selectedTab = tab
-                        }
-                    } label: {
-                        Image(systemName: tab.iconName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 35)
-                    }
-                    .padding()
-                    .foregroundStyle(selectedTab == tab ? .blue : .gray)
-                    Spacer()
+                    TabItemView(tabItem: tab, selectedTab: $selectedTab) 
                 }
             }
             .frame(height: 100)
@@ -41,6 +34,11 @@ struct TabBarView: View {
 
 
 #Preview {
-    TabBarView(selectedTab: .constant(TabBarItem(iconName: "house", title: "home")))
-//    TapBarVIew(selectedTab: .constant(TabBarItem(iconName: "house", title: "home")), editMode: .constant(true))
+    TabBarView(selectedTab: .constant(TabBarItem(iconName: "house", title: "home")), tabs: [
+        TabBarItem(iconName: "house", title: "home"),
+        TabBarItem(iconName: "magnifyingglass", title: "search"),
+        TabBarItem(iconName: "clock", title: "history"),
+        TabBarItem(iconName: "person", title: "profile")
+    ])
+    //    TapBarVIew(selectedTab: .constant(TabBarItem(iconName: "house", title: "home")), editMode: .constant(true))
 }

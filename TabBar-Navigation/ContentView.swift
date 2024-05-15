@@ -35,49 +35,84 @@ struct ContentView: View {
             ProfileView()
                 .tabBarItem(iconName: "person", title: "profile")
         }
+        .ignoresSafeArea()
     }
 }
 
+
 struct HomeView: View {
+    @State private var path = NavigationPath()
+    
     var body: some View {
-        NavigationStack {
-            ZStack{
+        NavigationStack(path: $path) {
+            ZStack {
                 Color.blue.opacity(0.5)
                 VStack {
                     Text("Home")
-                    NavigationLink("Push next") {
-                        DetailView()
-                    }
+                    NavigationLink("Push next" , value: 1)
+                        .buttonStyle(.bordered)
                 }
             }
             .ignoresSafeArea(.all)
+            .navigationDestination(for: Int.self) { selection in
+                DetailView(path: $path)
+                    .navigationBarBackButtonHidden(true)
+                    .tabBarHidden(true)
+            }
         }
     }
 }
 
 struct SearchView: View {
     var body: some View {
-        ZStack{
+        ZStack {
             Color.red.opacity(0.5)
             Text("Search")
         }
-        .ignoresSafeArea(.all)
     }
 }
 
 struct HistoryView: View {
+    @State private var editMode = false
     
     var body: some View {
-        ZStack{
+        ZStack {
             Color.purple.opacity(0.5)
             VStack {
                 Text("History")
-                Button("Edit") {
-                
+                if editMode {
+                    Text("Edit Mode on")
                 }
+                Button {
+                    withAnimation {
+                        editMode.toggle()
+                    }
+                } label: {
+                    if editMode {
+                        Text("Save")
+                    } else {
+                        Text("Edit")
+                    }
+                }
+                .buttonStyle(.bordered)
             }
+            
+            Text("asda")
+                .tabBarItem(iconName: "house", title: "home1")
+            
+            if editMode {
+                TabBarView(tabs: [
+                    TabBarItem(iconName: "arrowshape.backward.fill", title: "back", action: { editMode.toggle() }),
+                    TabBarItem(iconName: "xmark.bin", title: "delete", color: .red),
+                    TabBarItem(iconName: "star.slash", title: "unfavorite"),
+                    TabBarItem(iconName: "star.fill", title: "favorite", color: .yellow)
+                ])
+                .transition(.move(edge: .leading))
+            }
+            
         }
-        .ignoresSafeArea(.all)
+        .tabBarHidden(editMode ? true : false)
+        
     }
 }
 
@@ -87,16 +122,21 @@ struct ProfileView: View {
             Color.green.opacity(0.5)
             Text("Profile")
         }
-        .ignoresSafeArea(.all)
     }
 }
 
 struct DetailView: View {
+    @Binding var path: NavigationPath
+    
+    
     var body: some View {
         ZStack {
             Color.orange.opacity(0.5)
-            Button("Back") {
-                
+            VStack {
+                Button("Back") {
+                    path = NavigationPath()
+                }
+                .buttonStyle(.bordered)
             }
         }
         .ignoresSafeArea()

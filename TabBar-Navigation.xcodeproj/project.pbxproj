@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C5174382BF3EB3300148F9B /* TabItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5174372BF3EB3300148F9B /* TabItemView.swift */; };
 		9C6E68622BEC0BA300E11921 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E68612BEC0BA300E11921 /* TabBarView.swift */; };
 		9C6E68642BEC330900E11921 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E68632BEC330900E11921 /* TabBarItem.swift */; };
 		9C9445E22BE1845500CA828A /* TabBar_NavigationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9445E12BE1845500CA828A /* TabBar_NavigationApp.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C5174372BF3EB3300148F9B /* TabItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemView.swift; sourceTree = "<group>"; };
 		9C6E68612BEC0BA300E11921 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		9C6E68632BEC330900E11921 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		9C9445DE2BE1845500CA828A /* TabBar-Navigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TabBar-Navigation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +65,7 @@
 			children = (
 				9C9445E12BE1845500CA828A /* TabBar_NavigationApp.swift */,
 				9C9445E32BE1845500CA828A /* ContentView.swift */,
+				9C5174372BF3EB3300148F9B /* TabItemView.swift */,
 				9CEDF8B02BED7DE500BE1539 /* TabBarItemPreferenceKey.swift */,
 				9CC63E082BEE5C06008F7238 /* TabBarViewModifier.swift */,
 				9CC63E062BEE36B1008F7238 /* CustomTabView.swift */,
@@ -157,6 +160,7 @@
 				9C6E68642BEC330900E11921 /* TabBarItem.swift in Sources */,
 				9CC63E092BEE5C06008F7238 /* TabBarViewModifier.swift in Sources */,
 				9CC63E072BEE36B1008F7238 /* CustomTabView.swift in Sources */,
+				9C5174382BF3EB3300148F9B /* TabItemView.swift in Sources */,
 				9CEDF8B12BED7DE500BE1539 /* TabBarItemPreferenceKey.swift in Sources */,
 				9C6E68622BEC0BA300E11921 /* TabBarView.swift in Sources */,
 			);
