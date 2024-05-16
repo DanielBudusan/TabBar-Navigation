@@ -22,10 +22,11 @@ import SwiftUI
 //}
 
 struct ContentView: View {
+    @State private var previousSelectedTab: TabBarItem = .init(iconName: "house", title: "home")
     @State private var selectedTab: TabBarItem = .init(iconName: "house", title: "home")
     
     var body: some View {
-        CustomTabView(selectedTab: $selectedTab) {
+        CustomTabView(selectedTab: $selectedTab, previousSelectedTab: $previousSelectedTab) {
             HomeView()
                 .tabBarItem(iconName: "house", title: "home")
             SearchView()
@@ -49,6 +50,7 @@ struct HomeView: View {
                 Color.blue.opacity(0.5)
                 VStack {
                     Text("Home")
+                        .font(.title)
                     NavigationLink("Push next" , value: 1)
                         .buttonStyle(.bordered)
                 }
@@ -68,6 +70,7 @@ struct SearchView: View {
         ZStack {
             Color.red.opacity(0.5)
             Text("Search")
+                .font(.title)
         }
     }
 }
@@ -80,6 +83,7 @@ struct HistoryView: View {
             Color.purple.opacity(0.5)
             VStack {
                 Text("History")
+                    .font(.title)
                 if editMode {
                     Text("Edit Mode on")
                 }
@@ -96,9 +100,6 @@ struct HistoryView: View {
                 }
                 .buttonStyle(.bordered)
             }
-            
-            Text("asda")
-                .tabBarItem(iconName: "house", title: "home1")
             
             if editMode {
                 TabBarView(tabs: [
@@ -121,6 +122,7 @@ struct ProfileView: View {
         ZStack{
             Color.green.opacity(0.5)
             Text("Profile")
+                .font(.title)
         }
     }
 }
@@ -145,5 +147,5 @@ struct DetailView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(TabBarSelection(selectedTab: .constant(.init(iconName: "house", title: "home"))))
+        .environmentObject(TabBarSelection(selectedTab: .constant(.init(iconName: "house", title: "home")), previousSelectedTab: .constant(.init(iconName: "house", title: "home"))))
 }

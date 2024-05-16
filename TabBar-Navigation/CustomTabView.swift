@@ -9,20 +9,23 @@ import SwiftUI
 
 class TabBarSelection: ObservableObject {
     @Binding var item: TabBarItem
-   
-    init(selectedTab: Binding<TabBarItem>) {
+    @Binding var previousSelectedItem: TabBarItem
+
+    init(selectedTab: Binding<TabBarItem>, previousSelectedTab: Binding<TabBarItem>) {
         self._item = selectedTab
+        self._previousSelectedItem = previousSelectedTab
+   
     }
 }
 
 struct CustomTabView<Content:View>: View {
-    private var selectedTab: TabBarSelection
+    private var tabBarSelection: TabBarSelection
     @State private var tabs: [TabBarItem] = []
     @State private var isTabBarHidden = false
     let content: Content
     
-    init(selectedTab: Binding<TabBarItem>, @ViewBuilder content: () -> Content) {
-        self.selectedTab = .init(selectedTab: selectedTab)
+    init(selectedTab: Binding<TabBarItem>, previousSelectedTab: Binding<TabBarItem>,  @ViewBuilder content: () -> Content) {
+        self.tabBarSelection = .init(selectedTab: selectedTab, previousSelectedTab: previousSelectedTab)
         self.content = content()
     }
     
@@ -38,7 +41,7 @@ struct CustomTabView<Content:View>: View {
             VStack {
                 Spacer()
                 if !isTabBarHidden {
-                    TabBarView(selectedTab: selectedTab.$item, tabs: tabs)
+                    TabBarView(tabs: tabs)
                         .transition(.move(edge: .bottom))
                 } 
             }
@@ -47,7 +50,7 @@ struct CustomTabView<Content:View>: View {
             self.tabs = value
         })
         
-        .environmentObject(selectedTab)
+        .environmentObject(tabBarSelection)
         
     }
 }
@@ -59,7 +62,7 @@ extension CustomTabView {
 }
 
 #Preview {
-    CustomTabView(selectedTab: .constant(.init(iconName: "house", title: "home"))) {
+    CustomTabView(selectedTab: .constant(.init(iconName: "house", title: "home")), previousSelectedTab: .constant(.init(iconName: "house", title: "home"))) {
         HomeView()
     }
 }

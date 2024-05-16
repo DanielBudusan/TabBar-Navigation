@@ -10,14 +10,47 @@ import SwiftUI
 struct TabBarItemViewModifer: ViewModifier {
     @EnvironmentObject private var selectedTab: TabBarSelection
     let tab: TabBarItem
+    @State private var offSet:CGFloat = 0
     
     func body(content: Content) -> some View {
         Group {
             if tab == selectedTab.item {
                 content
-//                    .transition(AnyTransition.move(edge: .leading).combined(with: .opacity))
+                    .offset(x: offSet)
+                    .onAppear {
+                        withAnimation {
+                            offSet = 0
+                        }
+                    }
+            } else if tab == selectedTab.previousSelectedItem && tab.id < selectedTab.item.id {
+                content
+                    .offset(x: offSet)
+                    .onAppear {
+                        withAnimation {
+                            offSet = -393
+                        }
+                    }
+                    
+            } else if tab == selectedTab.previousSelectedItem && tab.id > selectedTab.item.id {
+                content
+                    .offset(x: offSet)
+                    .onAppear {
+                        withAnimation {
+                            offSet = 393
+                        }
+                    }
+            } else if tab.id < selectedTab.item.id {
+                content
+                    .offset(x: offSet)
+                    .onAppear {
+                            offSet = -393
+                    }
             } else {
-                Color.clear
+                content
+                    .offset(x: offSet)
+                    .onAppear {
+                            offSet = 393
+                    }
             }
         }
         .preference(key: TabBarItemsPreferenceKey.self, value: [tab])

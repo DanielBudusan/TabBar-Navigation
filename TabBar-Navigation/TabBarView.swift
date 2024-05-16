@@ -8,20 +8,18 @@
 import SwiftUI
 
 struct TabBarView: View {
-    @Binding var selectedTab: TabBarItem
     var tabs: [TabBarItem] = []
     
-    init(selectedTab: Binding<TabBarItem> = .constant(TabBarItem(iconName: "", title: "")), tabs: [TabBarItem]) {
-           self._selectedTab = selectedTab
-           self.tabs = tabs
-       }
+    init(tabs: [TabBarItem]) {
+        self.tabs = tabs
+    }
     
     var body: some View {
         VStack {
             Spacer()
             HStack (alignment: .center) {
                 ForEach(tabs, id:\.title) { tab in
-                    TabItemView(tabItem: tab, selectedTab: $selectedTab) 
+                    TabItemView(tabItem: tab)
                 }
             }
             .frame(height: 100)
@@ -32,13 +30,13 @@ struct TabBarView: View {
     }
 }
 
-
 #Preview {
-    TabBarView(selectedTab: .constant(TabBarItem(iconName: "house", title: "home")), tabs: [
+    TabBarView(tabs: [
         TabBarItem(iconName: "house", title: "home"),
         TabBarItem(iconName: "magnifyingglass", title: "search"),
         TabBarItem(iconName: "clock", title: "history"),
         TabBarItem(iconName: "person", title: "profile")
     ])
     //    TapBarVIew(selectedTab: .constant(TabBarItem(iconName: "house", title: "home")), editMode: .constant(true))
+    .environmentObject(TabBarSelection(selectedTab: .constant(.init(iconName: "house", title: "home")), previousSelectedTab: .constant(.init(iconName: "house", title: "home"))))
 }

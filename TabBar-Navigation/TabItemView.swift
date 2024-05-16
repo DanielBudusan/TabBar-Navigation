@@ -9,11 +9,11 @@ import SwiftUI
 
 struct TabItemView: View {
     var tabItem: TabBarItem
-    @Binding var selectedTab: TabBarItem
+    @EnvironmentObject private var tabBarSelection: TabBarSelection
     
-    init(tabItem: TabBarItem, selectedTab: Binding<TabBarItem> = .constant(TabBarItem(iconName: "", title: ""))) {
+    init(tabItem: TabBarItem) {
             self.tabItem = tabItem
-            self._selectedTab = selectedTab
+
         }
 
     var body: some View {
@@ -23,7 +23,8 @@ struct TabItemView: View {
                     action()
                 } else {
                     withAnimation {
-                        selectedTab = tabItem
+                        tabBarSelection.previousSelectedItem = tabBarSelection.item
+                        tabBarSelection.item = tabItem
                     }
                 }
             }
@@ -34,12 +35,13 @@ struct TabItemView: View {
                 .frame(width: 35)
         }
         .padding()
-        .foregroundStyle(selectedTab == tabItem ? .blue : tabItem.color)
+        .foregroundStyle(tabBarSelection.item == tabItem ? .blue : tabItem.color)
         .frame(maxWidth: .infinity)
         
     }
 }
 
 #Preview {
-    TabItemView(tabItem: TabBarItem(iconName: "house", title: "home", color: .red), selectedTab: .constant(TabBarItem(iconName: "clock", title: "history")))
+    TabItemView(tabItem: TabBarItem(iconName: "house", title: "home", color: .red))
+        .environmentObject(TabBarSelection(selectedTab: .constant(.init(iconName: "house", title: "home")), previousSelectedTab: .constant(.init(iconName: "house", title: "home"))))
 }
