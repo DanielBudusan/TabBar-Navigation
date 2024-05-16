@@ -28,13 +28,13 @@ struct ContentView: View {
     var body: some View {
         CustomTabView(selectedTab: $selectedTab, previousSelectedTab: $previousSelectedTab) {
             HomeView()
-                .tabBarItem(iconName: "house", title: "home")
+                .tabBarItem(iconName: "house.fill", title: "home")
             SearchView()
                 .tabBarItem(iconName: "magnifyingglass", title: "search")
             HistoryView()
                 .tabBarItem(iconName: "clock", title: "history")
             ProfileView()
-                .tabBarItem(iconName: "person", title: "profile")
+                .tabBarItem(iconName: "person.fill", title: "profile")
         }
         .ignoresSafeArea()
     }
@@ -104,7 +104,7 @@ struct HistoryView: View {
             if editMode {
                 TabBarView(tabs: [
                     TabBarItem(iconName: "arrowshape.backward.fill", title: "back", action: { editMode.toggle() }),
-                    TabBarItem(iconName: "xmark.bin", title: "delete", color: .red),
+                    TabBarItem(iconName: "trash", title: "delete", color: .red),
                     TabBarItem(iconName: "star.slash", title: "unfavorite"),
                     TabBarItem(iconName: "star.fill", title: "favorite", color: .yellow)
                 ])

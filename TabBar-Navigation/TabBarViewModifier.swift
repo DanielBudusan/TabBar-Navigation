@@ -13,47 +13,54 @@ struct TabBarItemViewModifer: ViewModifier {
     @State private var offSet:CGFloat = 0
     
     func body(content: Content) -> some View {
-        Group {
-            if tab == selectedTab.item {
-                content
-                    .offset(x: offSet)
-                    .onAppear {
-                        withAnimation {
-                            offSet = 0
+        print(selectedTab.item.id)
+        print(selectedTab.previousSelectedItem.id)
+        return Group {
+            GeometryReader { geometry in
+                let width = geometry.size.width
+                if tab == selectedTab.item {
+                    content
+                        .offset(x: offSet)
+                        .onAppear {
+                            withAnimation {
+                                offSet = 0
+                            }
                         }
-                    }
-            } else if tab == selectedTab.previousSelectedItem && tab.id < selectedTab.item.id {
-                content
-                    .offset(x: offSet)
-                    .onAppear {
-                        withAnimation {
-                            offSet = -393
+                } else if tab == selectedTab.previousSelectedItem && tab.id < selectedTab.item.id {
+                    content
+                        .offset(x: offSet)
+                        .onAppear {
+                            withAnimation {
+                                offSet = -width
+                            }
                         }
-                    }
-                    
-            } else if tab == selectedTab.previousSelectedItem && tab.id > selectedTab.item.id {
-                content
-                    .offset(x: offSet)
-                    .onAppear {
-                        withAnimation {
-                            offSet = 393
+                        
+                } else if tab == selectedTab.previousSelectedItem && tab.id > selectedTab.item.id {
+                    content
+                        .offset(x: offSet)
+                        .onAppear {
+                            withAnimation {
+                                offSet = width
+                            }
                         }
-                    }
-            } else if tab.id < selectedTab.item.id {
-                content
-                    .offset(x: offSet)
-                    .onAppear {
-                            offSet = -393
-                    }
-            } else {
-                content
-                    .offset(x: offSet)
-                    .onAppear {
-                            offSet = 393
-                    }
+                } else if tab.id < selectedTab.item.id {
+                    content
+                        .offset(x: offSet)
+                        .onAppear {
+                                offSet = -width
+                        }
+                } else {
+                    content
+                        .offset(x: offSet)
+                        .onAppear {
+                                offSet = width
+                        }
+                }
             }
+            
         }
         .preference(key: TabBarItemsPreferenceKey.self, value: [tab])
+
     }
 }
 
