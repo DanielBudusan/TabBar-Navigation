@@ -81,14 +81,14 @@ extension View {
     }
 }
 
-struct TabBarVisibility: ViewModifier {
-    let isVisibile: Bool
-    
-    func body(content: Content) -> some View {
-        return content
-            .preference(key: VisibilityPreferenceKey.self, value: isVisibile)
-    }
-}
+//struct TabBarVisibility: ViewModifier {
+//    let isVisibile: Bool
+//    
+//    func body(content: Content) -> some View {
+//        return content
+//            .preference(key: VisibilityPreferenceKey.self, value: isVisibile)
+//    }
+//}
 
 extension View {
     func tabBarItem(iconName: String, title: String) -> some View {
@@ -99,7 +99,7 @@ extension View {
 
 extension View {
     func tabBarHidden(_ isVisible: Bool) -> some View {
-        return modifier(TabBarVisibility(isVisibile: isVisible))
+        self.preference(key: VisibilityPreferenceKey.self, value: isVisible)
     }
 }
 
