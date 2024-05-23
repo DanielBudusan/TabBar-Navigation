@@ -20,7 +20,7 @@ import SwiftUI
 //    case unFavorite = "star.slash"
 //    case favorite = "star.fill"
 //}
-// bug 3 fixed
+// bug 4
 struct ContentView: View {
     @State private var previousSelectedTab: TabBarItem = .init(iconName: "house", title: "home")
     @State private var selectedTab: TabBarItem = .init(iconName: "house", title: "home")
