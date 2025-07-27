@@ -22,6 +22,7 @@ import SwiftUI
 //}
 // 0
 // 5
+// 6
 struct ContentView: View {
     @State private var previousSelectedTab: TabBarItem = .init(iconName: "house", title: "home")
     @State private var selectedTab: TabBarItem = .init(iconName: "house", title: "home")
